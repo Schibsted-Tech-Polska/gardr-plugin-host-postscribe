@@ -9,7 +9,8 @@
     "test": "./node_modules/.bin/mocha"
   },
   "dependencies": {
-    "gardr-core-plugin": "0.0.1"
+    "gardr-core-plugin": "0.0.1",
+    "cross-domain-events": "^0.0.2"
   },
   "devDependencies": {
     "sinon": "^1.9.1",
