@@ -1,6 +1,6 @@
-# Gardr Postscribe Plugin
+# Gardr Postscribe Plugin (Host)
 
-Gardr plugin to enable content rendering with Postscribe.
+Gardr plugin to enable content rendering with [Postscribe](https://github.com/krux/postscribe).
 It takes script pointed at options.url and renders it into host page (no iframe) using Postscribe. Element chosen as Gardr container will be used to render a script.
 
 ## Install
@@ -11,9 +11,10 @@ npm install gardr-plugin-host-postscribe --save
 
 ## Using with gardr-plugin-ext-postscribe
 
-gardr-plugin-ext-postscribe is an Ext plugin that allows to call replace action from inside of an iframe.
+[gardr-plugin-ext-postscribe](https://github.com/Schibsted-Tech-Polska/gardr-plugin-ext-postscribe) is an Ext plugin that allows to call replace action from inside of an iframe.
 
 ## Bundle
+
 In your host bundle file:
 
 ```javascript
