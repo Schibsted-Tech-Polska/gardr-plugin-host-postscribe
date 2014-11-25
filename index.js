@@ -14,10 +14,10 @@ var itemStorage = {
     }
 };
 
-var replaceWithPostscribe = function(item) {
+var replaceWithPostscribe = function(item, url) {
     if(typeof global.postscribe === 'function') {
         item.iframe.remove();
-        global.postscribe(item.options.container, '<script src="' + item.options.url + '"></script>', item.options.postscribeOptions);
+        global.postscribe(item.options.container, '<script src="' + (url || item.options.url) + '"></script>', item.options.postscribeOptions);
     }
     else {
         throw new Error('Gardr Postscribe plugin: window.postscribe is ' + typeof global.postscribe + ', expected function');
@@ -43,7 +43,7 @@ var gardrPostscribe = function(gardrPluginApi) {
         var item = itemStorage.getById(msg.data.id);
 
         if(item) {
-            replaceWithPostscribe(item);
+            replaceWithPostscribe(item, msg.data.url);
         }
     });
 

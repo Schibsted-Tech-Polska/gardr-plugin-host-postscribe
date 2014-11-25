@@ -3,6 +3,7 @@
 'use strict';
 
 // window mock for xde
+global.eventHandlers = {};
 global.addEventListener = function(name, handler) {
     if(!Array.isArray(this.eventHandlers[name])) {
         this.eventHandlers[name] = [];
@@ -27,7 +28,10 @@ var assert = require('assert'),
 var mockItem = function() {
     return {
         id: '' + Math.random(),
-        options: {},
+        options: {
+            container: 'banner1',
+            url: 'scripturl'
+        },
         iframe: {
             remove: sinon.spy(),
         }
@@ -40,7 +44,6 @@ describe('gardr-postscribe', function() {
 
     beforeEach(function() {
         global.postscribe = sinon.spy();
-        global.eventHandlers = {};
         pluginApi = new PluginApi();
     });
     
@@ -87,8 +90,6 @@ describe('gardr-postscribe', function() {
         var item = mockItem();
         gardrPostscribe(pluginApi);
         item.options.postscribe = true;
-        item.options.container = 'banner1';
-        item.options.url = 'scripturl';
 
         pluginApi.trigger('item:beforerender', item);
         setTimeout(function() {
@@ -105,8 +106,6 @@ describe('gardr-postscribe', function() {
         gardrPostscribe(pluginApi);
         item.options.postscribe = true;
         item.options.postscribeOptions = options;
-        item.options.container = 'banner1';
-        item.options.url = 'scripturl';
 
         pluginApi.trigger('item:beforerender', item);
         setTimeout(function() {
@@ -133,6 +132,31 @@ describe('gardr-postscribe', function() {
 
         setTimeout(function() {
             assert(global.postscribe.called, 'postscribe was not called');
+            assert(global.postscribe.calledWith('banner1', '<script src="scripturl"></script>'), 'postscribe was not called');
+            done();
+        }, 10);
+    });
+
+    it('should call postscribe when requested from inside of an iframe with custom URL', function(done) {
+        var item = mockItem();
+        gardrPostscribe(pluginApi);
+
+        pluginApi.trigger('item:beforerender', item);
+        global.triggerEvent('message', {
+            origin: '*',
+            data: {
+                __xde: true,
+                name: 'plugin:postscribe',
+                data: {
+                    id: item.id,
+                    url: 'otherurl'
+                }
+            }
+        });
+
+        setTimeout(function() {
+            assert(global.postscribe.called, 'postscribe was not called');
+            assert(global.postscribe.calledWith('banner1', '<script src="otherurl"></script>'), 'item.iframe.remove was not called');
             done();
         }, 10);
     });
