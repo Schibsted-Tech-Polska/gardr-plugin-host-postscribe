@@ -149,14 +149,14 @@ describe('gardr-postscribe', function() {
                 name: 'plugin:postscribe',
                 data: {
                     id: item.id,
-                    url: 'otherurl'
+                    html: '<img src="ad.jpg">'
                 }
             }
         });
 
         setTimeout(function() {
             assert(global.postscribe.called, 'postscribe was not called');
-            assert(global.postscribe.calledWith('banner1', '<script src="otherurl"></script>'), 'item.iframe.remove was not called');
+            assert(global.postscribe.calledWith('banner1', '<img src="ad.jpg">'), 'postscribe was not called');
             done();
         }, 10);
     });

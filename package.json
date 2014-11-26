@@ -1,6 +1,6 @@
 {
   "name": "gardr-plugin-host-postscribe",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Krystian Jarmicki <krystian.jarmicki@schibsted.pl>",
   "license": "MIT",
   "description": "Gardr plugin for switching rendering to Postscribe",
