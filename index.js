@@ -16,6 +16,11 @@ var itemStorage = {
 
 var replaceWithPostscribe = function(item, html) {
     if(typeof global.postscribe === 'function') {
+
+        if(typeof window.beforePostscribe === 'function') {
+            window.beforePostscribe(item);
+        }
+
         item.iframe.remove();
         item.options.container.innerHTML = '';
         global.postscribe(item.options.container, html ? html : '<script src="' + item.options.url + '"></script>', item.options.postscribeOptions);
